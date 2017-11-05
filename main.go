@@ -32,7 +32,7 @@ var (
 	cooldowns         map[string]int64
 	captcha_cooldowns map[string]int64
 	captcha_answers   map[string]string
-	info              [(width + 1) * (height + 1)]string //TODO arrays of arrays
+	info              [(width + 1) * (height + 1)]string //TODO arrays of arrays.
 	count             [(width + 1) * (height + 1)]uint64
 	img               *image.RGBA
 	changed_flag      bool
@@ -264,11 +264,11 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 				newimg := scale_image(img.SubImage(image.Rectangle{image.Point{x - 9, (height - y) - 9}, image.Point{x + 10, (height - y) + 10}}), 10)
 				post_image(s, newimg, m.ChannelID)
 			} else {
-				s.ChannelMessageSend(m.ChannelID, "Out of range")
+				s.ChannelMessageSend(m.ChannelID, "Out of range.")
 			}
 
 		} else {
-			s.ChannelMessageSend(m.ChannelID, "Wrong format")
+			s.ChannelMessageSend(m.ChannelID, "Wrong format.")
 		}
 	}
 
@@ -276,9 +276,9 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		if len(parts) > 1 && captcha_answers[m.Author.ID] != "" {
 			if captcha_answers[m.Author.ID] == parts[1] {
 				captcha_cooldowns[m.Author.ID] = time.Now().Unix()
-				s.ChannelMessageSend(m.ChannelID, "Correct")
+				s.ChannelMessageSend(m.ChannelID, "Correct.")
 			} else {
-				s.ChannelMessageSend(m.ChannelID, "Incorrect")
+				s.ChannelMessageSend(m.ChannelID, "Incorrect.")
 			}
 		} else {
 			gen_captcha(s, m)
@@ -334,24 +334,24 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 								}
 
 							} else {
-								s.ChannelMessageSend(m.ChannelID, "That wouldn't make a differance")
+								s.ChannelMessageSend(m.ChannelID, "That wouldn't make a difference.")
 							}
 
 						} else {
-							s.ChannelMessageSend(m.ChannelID, "You need a rank")
+							s.ChannelMessageSend(m.ChannelID, "You need a rank.")
 						}
 
 					} else {
-						s.ChannelMessageSend(m.ChannelID, "Out of range")
+						s.ChannelMessageSend(m.ChannelID, "Out of range.")
 					}
 				} else {
-					s.ChannelMessageSend(m.ChannelID, "Wrong format")
+					s.ChannelMessageSend(m.ChannelID, "Wrong format.")
 				}
 			} else {
-				s.ChannelMessageSend(m.ChannelID, "Please wait "+strconv.Itoa(int(cooldown_time-(time.Now().Unix()-cooldowns[m.Author.ID])))+" seconds")
+				s.ChannelMessageSend(m.ChannelID, "Please wait "+strconv.Itoa(int(cooldown_time-(time.Now().Unix()-cooldowns[m.Author.ID])))+" seconds.")
 			}
 		} else {
-			s.ChannelMessageSend(m.ChannelID, "You need to redo the captcha ($captcha 12345/$captcha by its self to get another one)")
+			s.ChannelMessageSend(m.ChannelID, "You need to redo the captcha (`$captcha 12345`or `$captcha` by its self to get another one)")
 			gen_captcha(s, m)
 		}
 
@@ -361,14 +361,14 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		post_id = m.ChannelID
 		save("post_id", post_id)
 		running = false
-		s.ChannelMessageSend(m.ChannelID, "Will post images here from now on")
+		s.ChannelMessageSend(m.ChannelID, "Will post images here from now on.")
 		running = true
 		go image_loop(s)
 	}
 
 	if m.Content == "$clear" && admin {
 		blank()
-		s.ChannelMessageSend(m.ChannelID, "Clearing")
+		s.ChannelMessageSend(m.ChannelID, "Clearing...")
 	}
 
 	if m.Content == "$image" && admin {
@@ -377,12 +377,12 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 	if m.Content == "$load" && admin {
 		mass_load()
-		s.ChannelMessageSend(m.ChannelID, "Loading")
+		s.ChannelMessageSend(m.ChannelID, "Loading...")
 	}
 
 	if m.Content == "$save" && admin {
 		mass_save()
-		s.ChannelMessageSend(m.ChannelID, "Saving")
+		s.ChannelMessageSend(m.ChannelID, "Saving...")
 	}
 }
 
