@@ -59,7 +59,7 @@ func init() {
 
 	mass_load()
 
-	go func() { //autosave
+	go func() { // Autosave goroutine.
 		for {
 			time.Sleep(10 * time.Minute)
 			mass_save()
@@ -120,7 +120,7 @@ func main() {
 
 	dg, err := discordgo.New("Bot " + token)
 	if err != nil {
-		fmt.Println("error creating Discord session,", err)
+		fmt.Println("Error creating Discord session:", err)
 		return
 	}
 
@@ -130,7 +130,7 @@ func main() {
 
 	err = dg.Open()
 	if err != nil {
-		fmt.Println("error opening connection,", err)
+		fmt.Println("Error opening connection:", err)
 		return
 	}
 
@@ -168,7 +168,7 @@ func userHere(s *discordgo.Session, evt *discordgo.PresenceUpdate) {
 				green := uint8((grank.Color & 0x00FFFF) >> 8)
 				blue := uint8((grank.Color & 0x0000FF))
 
-				//check if they have pixles under another colour if so change them
+				// If they have pixels under another colour, change them.
 				for i, j := range info {
 					if j == member.User.ID {
 						x := i / width
@@ -243,12 +243,12 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 						msg = "Removed" + msg
 					}
 
-					s.ChannelMessageSend(m.ChannelID, msg+" ,overall the pixel has been placed "+strconv.FormatUint(count[(width*x)+y], 10)+" times")
+					s.ChannelMessageSend(m.ChannelID, msg+" ,overall the pixel has been placed "+strconv.FormatUint(count[(width*x)+y], 10)+" times.")
 				} else {
-					s.ChannelMessageSend(m.ChannelID, "Could not get pixel info")
+					s.ChannelMessageSend(m.ChannelID, "Could not get pixel info.")
 				}
 			} else {
-				s.ChannelMessageSend(m.ChannelID, "Out of range")
+				s.ChannelMessageSend(m.ChannelID, "Out of range.")
 			}
 
 		}
